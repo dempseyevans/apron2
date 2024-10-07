@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${item.id != null} ? 'Edit Item' : 'Add Item'">Item Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Apron</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/home}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/items}">Items</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 th:text="${item.id != null} ? 'Edit Item' : 'Add Item'"></h1>
+
+        <form th:action="@{${item.id != null} ? '/items/edit/' + ${item.id} : '/items'}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control" th:value="${item.name}" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" step="0.01" id="price" name="price" class="form-control" th:value="${item.price}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a th:href="@{/items}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

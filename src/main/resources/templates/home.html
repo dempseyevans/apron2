@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/home}">Home</a>
+        <a class="navbar-brand" th:href="@{/items}">Items</a>
+        <a class="navbar-brand" th:href="@{/recipes}">Recipes</a>
+        <a class="navbar-brand" th:href="@{/logout}">Logout</a>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Welcome to the Home Page!</h1>
+        <p>This is where users can see their dashboard or any relevant information.</p>
+
+        <h2>Recipes</h2>
+        
+        <!-- Search form -->
+        <form th:action="@{/recipes}" method="get">
+            <div class="form-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by title or descriptor" th:value="${param.search}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Cook Time</th>
+                    <th>Cost</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="recipe : ${recipes}">
+                    <td><a th:href="@{/recipes/{id}(id=${recipe.id})}" th:text="${recipe.title}"></a></td>
+                    <td th:text="${recipe.cookTime} + ' mins'"></td>
+                    <td th:text="${recipe.cost != null ? '$' + recipe.cost : 'N/A'}"></td>
+                    <td>
+                        <a th:href="@{/recipes/edit/{id}(id=${recipe.id})}" class="btn btn-warning">Edit</a>
+                        <a th:href="@{/recipes/delete/{id}(id=${recipe.id})}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/recipes/new}" class="btn btn-success">Add New Recipe</a>
+    </div>
+</body>
+</html>
